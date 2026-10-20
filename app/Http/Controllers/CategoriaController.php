@@ -7,7 +7,7 @@ use App\Models\Categoria;
 use Illuminate\Http\Request;
 
 
-class controle_categorias extends Controller
+class CategoriaController extends Controller
 {
     public function index() //A função index() é controlado pela view e lista todas as informações da tabela 
     //de categorias
@@ -16,7 +16,7 @@ class controle_categorias extends Controller
 
         $categorias = Categoria::all();
 
-        return view('categoria.listarObjeto', compact('categorias'));
+        return view('categorias.index', compact('categorias'));
         //
     }
 
@@ -27,50 +27,38 @@ class controle_categorias extends Controller
 
     {
 
-        return view('categoria.criarObjeto');
+        return view('categorias.categoria.create');
         
     }
 
-    /*
-
-    //controlado via view
-    public function show(Categoria $categorias)
+    
+    public function show(Categoria $categorias) //controlado via view
     {
         //A função show exibe os detalhes/informações do item ou objeto referenciado pelo id
 
-        return view('categoria.show', compact('categorias'));
+        return view('categorias.categoria.show', compact('categorias'));
 
 
     }
 
-    */
-
-    /*controlado via view
-    public function edit(Categoria $categorias)
+   
+    public function edit(Categoria $categorias) //controlado via view
     {
         //O método edit atua em uma página responsável pela edição de um item/objeto (atua como uma espécie de
         //formulário )
 
-        return view('categoria.edit', compact('categorias'));
+        return view('categorias.categoria.edit', compact('categorias'));
 
-    } */
+    }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    
-
-    private function validarCriterioDeAutencticacao(Request $request)
-    {
+    private function validarCriterioDeAutencticacao(Request $request) {
 
         return $request::validate([
 
             'nome' => ['required', 'string', 'max:100'],
             'descricao' => ['required', 'string', 'max:1000']
 
-        ], 
-
-        [
+        ], [
 
             'nome.required' => 'Informe o nome da categoria',
             'nome.string' => 'Informe a descrição da categoria',
@@ -85,7 +73,7 @@ class controle_categorias extends Controller
     public function store(Request $request)
     {
 
-        Categoria::create($this->validarCriterioDeAutencticacao($request));
+        Categorias::create($this->validarCriterioDeAutencticacao($request));
 
         return redirect()->route('categorias.index')
             ->with('Sucesso!', 'Categoria cadastrada com sucesso');

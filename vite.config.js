@@ -1,7 +1,7 @@
 import {
     defineConfig
 } from 'vite';
-import laravel from 'laravel-vite-plugin';
+import laravel, {refreshPaths} from 'laravel-vite-plugin';
 import { bunny } from 'laravel-vite-plugin/fonts';
 import tailwindcss from "@tailwindcss/vite";
 
@@ -13,7 +13,10 @@ export default defineConfig({
                 'resources/js/app.js',
                 'resources/js/passkeys.js',
             ],
-            refresh: true,
+            refresh: [
+                ...refreshPaths,
+                'resources/views/**'
+            ],
             fonts: [
                 bunny('Instrument Sans', {
                     weights: [400, 500, 600],
@@ -24,15 +27,28 @@ export default defineConfig({
     ],
     server: {
         cors: true,
-        watch: {
-            ignored: [
-                '**/.agents/**',
-                '**/.claude/**',
-                '**/.cursor/**',
-                '**/.junie/**',
-                '**/storage/framework/views/**',
-                '**/vendor/**',
-            ],
+        port: 5173,      
+        strictPort: true, 
+        host: 'localhost',
+        hmr: {
+            host: 'localhost',
+            protocol: 'ws',
+            watch: {
+                ignored: [
+                    '**/node_modules/**',
+                    '**/node_modules/flowbite/**',
+                    '**/.agents/**',
+                    '**/.claude/**',
+                    '**/.cursor/**',
+                    '**/.junie/**',
+                    '**/storage/**',
+                    '**/vendor/**',
+                ],
+            },
         },
     },
+   optimizeDeps: {
+        include: ['flowbite'],
+   },
+
 });

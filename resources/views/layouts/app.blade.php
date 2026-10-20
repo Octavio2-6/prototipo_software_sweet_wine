@@ -3,3 +3,9 @@
         {{ $slot }}
     </flux:main>
 </x-layouts::app.sidebar>
+
+<body>
+
+    @yield('conteudo')
+
+</body>
